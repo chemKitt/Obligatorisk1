@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>QUnit Example</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://code.jquery.com/qunit/qunit-2.9.2.js"></script>
+    <script src="tests.js"></script>
+    <script>
+        QUnit.test("Good date", function (assert) {
+            var date = isDateValid("18.08.1997");
+            assert.equal(date, true);
+        });
+        QUnit.test("February 29th good year", function (assert) {
+            var date = isDateValid("29.02.2016");
+            assert.equal(date, true);
+        });
+        QUnit.test("Length not 10", function (assert) {
+            var date = isDateValid("30.01.202020202020202020");
+            assert.equal(date, false);
+        });
+        QUnit.test("Punctuation Bad", function (assert) {
+            var date = isDateValid("95-13/6666");
+            assert.equal(date, false);
+        });
+        QUnit.test("Invalid year", function (assert) {
+            var date = isDateValid("30.01.20");
+            assert.equal(date, false);
+        });
+        QUnit.test("Invalid month", function (assert) {
+            var date = isDateValid("11.ØÆ.1982");
+            assert.equal(date, false);
+        });
+        QUnit.test("Too many months", function (assert) {
+            var date = isDateValid("30.55.2072");
+            assert.equal(date, false);
+        });
+        QUnit.test("Too many days", function (assert) {
+            var date = isDateValid("99.01.2016");
+            assert.equal(date, false);
+        });
+        QUnit.test("31th of February", function (assert) {
+            var date = isDateValid("31.02.2016");
+            assert.equal(date, false);
+        });
+        QUnit.test("30th of February", function (assert) {
+            var date = isDateValid("30.02.1997");
+            assert.equal(date, false);
+        });
+        QUnit.test("29th of February but NOT leap year", function (assert) {
+            var date = isDateValid("29.02.2015");
+            assert.equal(date, false);
+        });
+    </script>
+</body>
+</html>
